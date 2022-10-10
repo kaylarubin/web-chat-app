@@ -13,11 +13,17 @@ const ENDPOINT = "http://localhost:5000";
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({ location, history }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [chatReady, setChatReady] = useState(false);
+  const [error, setError] = useState(false);
+
+  if (error) {
+    history.push("/userTaken");
+  }
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -29,10 +35,12 @@ const Chat = ({ location }) => {
 
     socket.emit("join", { name, room }, (error) => {
       if (error) {
-        alert(error);
+        setError(true);
+      } else {
+        setChatReady(true);
       }
     });
-  }, [ENDPOINT, location.search]);
+  }, []);
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -50,17 +58,19 @@ const Chat = ({ location }) => {
 
   return (
     <div className="outerContainer">
-      <div className="container">
-        <InfoBar room={room} />
-        <Messages messages={messages} name={name} />
-        <Input
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
-        />
-      </div>
+      {chatReady ? (
+        <div className="container">
+          <InfoBar room={room} />
+          <Messages messages={messages} name={name} />
+          <Input
+            message={message}
+            setMessage={setMessage}
+            sendMessage={sendMessage}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
 
-export default Chat;
+export default withRouter(Chat);

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Join.css";
 
-const Join = () => {
+const Join = ({ userTaken }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
 
@@ -10,6 +10,11 @@ const Join = () => {
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
         <h1 className="heading">Join</h1>
+        {userTaken ? (
+          <div className="userTakenError">
+            Name is already taken for that room.
+          </div>
+        ) : null}
         <div>
           <input
             placeholder="Name"

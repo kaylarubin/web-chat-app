@@ -8,7 +8,11 @@ const App = () => {
   return (
     <Router>
       <Route path="/" exact component={() => <Join />} />
-      <Route path="/invalidJoin" exact component={() => <Join />} />
+      <Route
+        path="/userTaken"
+        exact
+        component={() => <Join userTaken={true} />}
+      />
       <Route path="/chat" component={Chat} />
     </Router>
   );
