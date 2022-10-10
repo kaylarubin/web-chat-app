@@ -7,19 +7,21 @@ import InfoBar from "./InfoBar";
 import Input from "./Input";
 
 import "../styles/Chat.css";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ENDPOINT = "http://localhost:5000";
 
 let socket;
 
-const Chat = ({ location, history }) => {
+const Chat = ({ location }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatReady, setChatReady] = useState(false);
   const [error, setError] = useState(false);
+
+  const history = useHistory();
 
   if (error) {
     history.push("/userTaken");
@@ -73,4 +75,4 @@ const Chat = ({ location, history }) => {
   );
 };
 
-export default withRouter(Chat);
+export default Chat;

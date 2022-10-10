@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../styles/Join.css";
 
 const Join = ({ userTaken }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+
+  const history = useHistory();
+
+  const joinRoom = (event) => {
+    if (!name || !room) {
+      event.preventDefault();
+      return;
+    }
+    history.push(`/chat?name=${name}&room=${room}`);
+  };
 
   return (
     <div className="joinOuterContainer">
@@ -33,16 +43,14 @@ const Join = ({ userTaken }) => {
             onChange={(event) => {
               setRoom(event.target.value);
             }}
+            onKeyPress={(event) =>
+              event.key === "Enter" ? joinRoom(event) : null
+            }
           />
         </div>
-        <Link
-          onClick={(event) => (!name || !room ? event.preventDefault() : null)}
-          to={`/chat?name=${name}&room=${room}`}
-        >
-          <button className={"button mt-20"} type="submit">
-            Sign In
-          </button>
-        </Link>
+        <button className={"button mt-20"} type="submit" onClick={joinRoom}>
+          Sign In
+        </button>
       </div>
     </div>
   );

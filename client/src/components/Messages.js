@@ -1,16 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import Message from "./Message";
 import "../styles/Messages.css";
 
 const Messages = ({ messages, name }) => {
   const scrollToBottomRef = useRef(null);
-
-  //   useEffect(() => {
-  //     if (scrollToBottomRef.current) {
-  //       scrollToBottomRef.current.scrollIntoView({ behavior: "smooth" });
-  //     }
-  //   }, [messages]);
 
   return (
     <ScrollToBottom className="messages" mode={"bottom"}>
@@ -21,7 +15,6 @@ const Messages = ({ messages, name }) => {
           </div>
         );
       })}
-      {/* <div style={{ float: "left", clear: "both" }} ref={scrollToBottomRef} /> */}
     </ScrollToBottom>
   );
 };
